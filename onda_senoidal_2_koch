@@ -1,0 +1,79 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_ITERACOES 4
+#define MAX_SIMBOLOS 65536
+
+void onda_senoidal_Koch(char *simbolos, int iteracoes, const char *axioma, double angulo, const char *regra, int numero);
+
+void curva_Koch(char *simbolos, int iteracoes, const char *axioma, double angulo, const char *regra) {
+    char temp[MAX_SIMBOLOS];
+    int i, j;
+
+    if (iteracoes == 0) {
+        strcpy(simbolos, axioma);
+    } else {
+        curva_Koch(temp, iteracoes - 1, axioma, angulo, regra);
+        simbolos[0] = '\0';
+
+        for (i = 0, j = strlen(temp); i < j; ++i) {
+            if (temp[i] == 'F') {
+                strcat(simbolos, regra);
+            } else {
+                strncat(simbolos, &temp[i], 1);
+            }
+        }
+    }
+}
+
+void onda_senoidal_Koch(char *simbolos, int iteracoes, const char *axioma, double angulo, const char *regra, int numero) {
+    FILE *outputFile = fopen("exit_wavesinusoidal.txt", "w");
+    if (outputFile == NULL) {
+        printf("Não foi possível criar o arquivo de saída.\n");
+        return;
+    }
+
+    fprintf(outputFile, "Fractal Onda Senoidal 2 de Koch\n\n");
+    fprintf(outputFile, "Numero do fractal correspondente: %d\n", numero);
+    fprintf(outputFile, "Axioma: %s\n", axioma);
+    fprintf(outputFile, "Angulo dado em graus: %.2lf\n", angulo);
+    fprintf(outputFile, "Regra: %s\n", regra);
+
+    for (int i = 1; i <= MAX_ITERACOES; i++) {
+        char curva[MAX_SIMBOLOS];
+        simbolos[0] = '\0';
+
+        curva_Koch(curva, i, axioma, angulo, regra);
+        fprintf(outputFile, "\n\nSequência de símbolos no %dº estágio:\n%s\n", i, curva);
+    }
+
+    fclose(outputFile);
+
+    printf("\nA sequencia de simbolos foi gravada no arquivo 'exit_wavesinusoidal.txt'.\n");
+}
+
+int main() {
+    int iteracoes;
+    char axioma[MAX_SIMBOLOS];
+    double angulo;
+    char regra[MAX_SIMBOLOS];
+    char simbolos[MAX_SIMBOLOS];
+    int numero;
+
+    printf("Numero do fractal correspondente: ");
+    scanf("%i", &numero);
+
+    printf("Axioma: ");
+    scanf("%s", axioma);
+
+    printf("Angulo dado em graus: ");
+    scanf("%lf", &angulo);
+
+    printf("Regra: ");
+    scanf("%s", regra);
+
+    onda_senoidal_Koch(simbolos, MAX_ITERACOES, axioma, angulo, regra, numero);
+
+    return 0;
+}
