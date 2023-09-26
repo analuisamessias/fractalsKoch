@@ -39,22 +39,22 @@ void regra_hilbert(char *simbolos, int iteracoes, const char *axioma, double ang
 void preenchimento_hilbert(const char *axioma, double angulo, const char *regraX, const char *regraY, int numero) {
     FILE *outputFile = fopen("exit_hilbert.txt", "w");
     if (outputFile == NULL) {
-        printf("Não foi possível criar o arquivo de saída.\n");
+        printf("It was not possible to create the output file.\n");
         return;
     }
 
-    fprintf(outputFile, "Fractal Preenchimento de espaço de Hilbert\n\n");
-    fprintf(outputFile, "Numero do fractal correspondente: %d\n", numero);
-    fprintf(outputFile, "Axioma: %s\n", axioma);
-    fprintf(outputFile, "Angulo dado em graus: %.2lf\n", angulo);
-    fprintf(outputFile, "Regra de X: %s\n", regraX);
-    fprintf(outputFile, "Regra de Y: %s\n", regraY);
+    fprintf(outputFile, "Fractal Hilbert\n\n");
+    fprintf(outputFile, "Corresponding Fractal Number: %d\n", numero);
+    fprintf(outputFile, "Axiom: %s\n", axioma);
+    fprintf(outputFile, "Angle (in degrees): %.2lf\n", angulo);
+    fprintf(outputFile, "Rule of X: %s\n", regraX);
+    fprintf(outputFile, "Rule of Y: %s\n", regraY);
 
     for (int i = 1; i <= MAX_ITERACOES; i++) {
         char curva[MAX_SIMBOLOS];
         regra_hilbert(curva, i, axioma, angulo, regraX, regraY);
 
-        // Remove os símbolos X e Y da sequência
+        // Remove symbols X and Y from sequence
         char sequenciaF[MAX_SIMBOLOS];
         int pos = 0;
         for (int j = 0; j < strlen(curva); j++) {
@@ -64,12 +64,12 @@ void preenchimento_hilbert(const char *axioma, double angulo, const char *regraX
         }
         sequenciaF[pos] = '\0';
 
-        fprintf(outputFile, "\n\nSequência de símbolos no %dº estágio: \n%s\n", i, sequenciaF);
+        fprintf(outputFile, "\n\nSymbol sequence in the %dº stage: \n%s\n", i, sequenciaF);
     }
 
     fclose(outputFile);
 
-    printf("\nA sequencia de simbolos foi gravada no arquivo 'exit_hilbert.txt'.\n");
+    printf("\nThe symbol sequence has been saved in the 'exit_hilbert.txt' file.\n");
 }
 
 int main() {
@@ -79,19 +79,19 @@ int main() {
     char regraY[MAX_SIMBOLOS];
     int numero;
 
-    printf("Numero do fractal correspondente: ");
+    printf("Corresponding Fractal Number: ");
     scanf("%d", &numero);
 
-    printf("Axioma: ");
+    printf("Axiom: ");
     scanf("%s", axioma);
 
-    printf("Angulo dado em graus: ");
+    printf("Angle (in degrees): ");
     scanf("%lf", &angulo);
 
-    printf("Regra de X: ");
+    printf("Rule of X: ");
     scanf("%s", regraX);
 
-    printf("Regra de Y: ");
+    printf("Rule of Y: ");
     scanf("%s", regraY);
 
     preenchimento_hilbert(axioma, angulo, regraX, regraY, numero);
