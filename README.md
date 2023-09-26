@@ -1,4 +1,4 @@
-# fractalsKoch
+# fractalsKoch in C !!
 
 Instructions for running the program:
 
